@@ -1,0 +1,5 @@
+id,name,email,age,joined_date
+1,Nimal,nimal@example.com,21,2026-10-01
+2,Amali,,22,2026-10-03
+3,Kamal,invalid-email,abc,not-a-date
+3,Kamal,invalid-email,abc,not-a-date
