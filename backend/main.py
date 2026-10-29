@@ -1,9 +1,10 @@
-
+import os
 from io import BytesIO
 
 import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title="DataPulse API",
@@ -11,16 +12,27 @@ app = FastAPI(
     description="CSV Data Quality Analysis API"
 )
 
+# Frontend domains allowed to access the API
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# Production frontend URL from environment variables
+production_frontend = os.getenv("FRONTEND_URL", "").rstrip("/")
+
+if production_frontend:
+    allowed_origins.append(production_frontend)
+
+# Configure CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000"
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
 
 MAX_FILE_SIZE = 5 * 1024 * 1024
 MAX_REPORT_ERRORS = 500
